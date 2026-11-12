@@ -2,7 +2,7 @@
     const moviesContainer = document.getElementById("movies-container")
     const moviesHTML = movies.map((movie) =>{
         return `
-                    <article class="bg-[#131317] rounded-xl  border border-[#24242B] hover:border-red-500 transition">
+                    <article data-id="${movie.id}" class="bg-[#131317] rounded-xl  border border-[#24242B] hover:border-red-500 transition">
                 <img 
                     src="${movie.image}" 
                     alt="${movie.title}"
