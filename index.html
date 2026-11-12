@@ -10,7 +10,7 @@
 <body class="bg-black min-h-screen">
     <header class="bg-black border-b border-[#202027] " >
         <div class="max-w-7xl  px-4 sm:px-6 h-auto min-h-20 py-4 flex justify-between items-center gap-4">
-            <div class="flex items-center gap-3  shrink-0">
+            <div class="flex items-center gap-3 shrink-0">
                 <img class="w-14 h-15 object-contain flex justify-self-start" src="/img/Logo.png" alt="CinéTrack Logo">
             <div>
                <h1 class="text-2xl font-bold text-[#FFFFFF] text-start" ><span class="text-red-500">Ciné</span>Track</h1>
@@ -20,18 +20,42 @@
         </div>
     </header>
     <main>
+        <div class=" grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-6">
+        <div class="min-w-0">
         <h4 class="font-bold pt-16 p-2 pl-6  text-[#E80E1B] w-auto">VOTRE UNIVERS CINEMA</h4>
         <h1 class="font-extrabold text-4xl text-amber-50 p-2 pl-6">Explorez votre prochain</h1>
         <h1 class="font-extrabold text-4xl text-amber-50 pl-6">coup de cœur.</h1>
         <h4 class="text-[#9496A1] p-5 pl-6">Films et séries à découvrir et à retrouver</h4>
 
         <section id="movies-container" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6 p-6"></section>
-        <aside id="favorite" class="text-3xl text-[#E80E1B] bg-[#202027] ">Mes Favories</aside>
+        </div>
+        <aside id="favorite" class="bg-[#131317] border border-[#24242B] rounded-xl p-5 h-fit lg:mt-16 ">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-white text-xl font-bold">Mes Favories </h2>
+                <span id="favorite-count" class="bg-[#E80E1B] text-xs px-3 py-1 rounded-full">0 TITRES</span>
+            </div>
+            <p class="text-[#9496A1] text-xs mb-5"> Vos films et series a portée de main</p>
+            <div id="fav-container" class="flex flex-col gap-3">
+                <p id="empty-fav" class="text-[#9496A1] text-sm text-center">Aucun favori pour le moment.</p>
+            </div>
+            <div class="border-t border-[#24242B] mt-5 pt-4">
+                <h3 class="text-white font-semibold text-sm mb-3">Votre collection </h3>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-[#9496A1]">Films</span>
+                    <span id="fav-movies-count" class="text-white">0</span>
+                </div>
+                <div class="flex justify-between text-sm ">
+                    <span class="text-[#9496A1]">Series</span>
+                    <span id="fav-series-count" class="text-white">0</span>
+                </div>
+            </div>
+        </aside>
     <!--Modal-->
     <div id="modal" class=" hidden fixed inset-0 bg-black items-center justify-center p-4">
         <div class="modal-content bg-[#131317] border border-[#24242B] rounded-xl max-w-3xl w-full p-6 relative">
             <span id="close-btn" class="text-white text-2xl cursor-pointer absolute top-3 right-5">x</span>
             <div id="modal-body"></div>
+        </div>
         </div>
     </div>
     </main>
