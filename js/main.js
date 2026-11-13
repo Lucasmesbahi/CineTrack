@@ -1,4 +1,3 @@
-
 import { loadMovie, getFavorites, saveFavorites } from "./store.js";
 import { renderMovies } from "./render.js";
 import { modal } from "./modale.js";
@@ -15,6 +14,7 @@ async function init() {
     const favoriteCount = document.getElementById("favorite-count");
     const favMoviesCount = document.getElementById("fav-movies-count");
     const favSeriesCount = document.getElementById("fav-series-count");
+    const searchInput = document.getElementById("search");
 
     function renderFavorites() {
         const favoriteMovies = movies.filter(movie =>
@@ -120,6 +120,13 @@ async function init() {
 
         renderFavorites();
     });
+            searchInput.addEventListener("input", (e) => {
+            const searchValue = e.target.value.toLowerCase().trim();
+            const filteredMovies = movies.filter(movie => {
+                return movie.title.toLowerCase().includes(searchValue);
+            });
+            renderMovies(filteredMovies, favorites);
+        });
 }
 
 init();
