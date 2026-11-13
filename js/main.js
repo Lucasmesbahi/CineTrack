@@ -6,15 +6,26 @@ async function init() {
     let favorites = getFavorites();
     renderMovies(movies, favorites)
     modal(movies)
-
     const moviesContainer = document.getElementById("movies-container")
     const favContainer = document.getElementById("fav-container")
     const favoriteCount = document.getElementById("favorite-count")
     const favMoviesCount = document.getElementById("fav-movies-count")
     const favSeriesCount = document.getElementById("fav-series-count")
 
-    function renderFavorites() {
-        
+    function renderFavorites(favorites) {
+        const favoriteMovies = movies.filter(movie =>
+            favorites.includes(movie.id)
+        );
+
+        favoriteCount.textContent = `${favoriteMovies.length} TITRES`;
+
+        favMoviesCount.textContent = favoriteMovies.filter(
+            movie => movie.type === "movie"
+        ).length;
+
+        favSeriesCount.textContent = favoriteMovies.filter(
+            movie => movie.type === "series"
+        ).length;
     }
 
     moviesContainer.addEventListener("click" , (e) => {
