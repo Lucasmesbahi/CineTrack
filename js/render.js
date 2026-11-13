@@ -1,4 +1,4 @@
- export function renderMovies(movies) {
+ export function renderMovies(movies , favorites =[]) {
     const moviesContainer = document.getElementById("movies-container")
     const moviesHTML = movies.map((movie) =>{
         return `
@@ -8,11 +8,11 @@
                     alt="${movie.title}"
                     class="w-full object-cover"
                 >
-    <button
-        data-favorite="${movie.id}"
-        class="absolute top-3 right-3  text-white w-9 h-9 rounded-full hover:bg-red-600 transition">
-        ♡
-    </button>
+<button
+    data-favorite="${movie.id}"
+    class="absolute top-3 right-3 bg-black/60 ${favorites.includes(movie.id) ? 'text-red-500' : 'text-white'} w-9 h-9 rounded-full hover:bg-red-600 transition">
+    ${favorites.includes(movie.id) ? "♥" : "♡"}
+</button>
                 <div class="p-4">
                     <h3 class="text-white font-bold text-lg mb-2">
                         ${movie.title}

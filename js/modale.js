@@ -6,6 +6,8 @@ export function modal(movies){
     const closeBtn = document.querySelector("#close-btn")
 
     moviesContainer.addEventListener("click" , (e) =>{
+        if (e.target.closest("[data-favorite]")) return;
+        
         const card = e.target.closest("[data-id]")
         if (!card) return;
         const movie = movies.find((item) => item.id === card.dataset.id );
