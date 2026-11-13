@@ -2,13 +2,17 @@
     const moviesContainer = document.getElementById("movies-container")
     const moviesHTML = movies.map((movie) =>{
         return `
-                    <article data-id="${movie.id}" class="bg-[#131317] rounded-xl  border border-[#24242B] hover:border-red-500 transition">
-                <img 
+                    <article data-id="${movie.id}" class="relative bg-[#131317] rounded-xl  border border-[#24242B] hover:border-red-500 transition">
+                    <img 
                     src="${movie.image}" 
                     alt="${movie.title}"
                     class="w-full object-cover"
                 >
-
+    <button
+        data-favorite="${movie.id}"
+        class="absolute top-3 right-3  text-white w-9 h-9 rounded-full hover:bg-red-600 transition">
+        ♡
+    </button>
                 <div class="p-4">
                     <h3 class="text-white font-bold text-lg mb-2">
                         ${movie.title}
