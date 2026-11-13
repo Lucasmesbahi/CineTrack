@@ -8,6 +8,14 @@ async function init() {
     modal(movies)
 
     const moviesContainer = document.getElementById("movies-container")
+    const favContainer = document.getElementById("fav-container")
+    const favoriteCount = document.getElementById("favorite-count")
+    const favMoviesCount = document.getElementById("fav-movies-count")
+    const favSeriesCount = document.getElementById("fav-series-count")
+
+    function renderFavorites() {
+        
+    }
 
     moviesContainer.addEventListener("click" , (e) => {
         const button = e.target.closest("[data-favorite]");

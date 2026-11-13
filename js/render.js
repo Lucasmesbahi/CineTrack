@@ -6,7 +6,7 @@
                     <img 
                     src="${movie.image}" 
                     alt="${movie.title}"
-                    class="w-full object-cover"
+                    class="w-full h-64 object-cover"
                 >
 <button
     data-favorite="${movie.id}"
