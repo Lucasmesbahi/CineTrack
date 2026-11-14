@@ -27,7 +27,7 @@ CineTrack/
 ## Fonctionnalités
 - Afficher les films et les séries.
 - Rechercher un film ou une série.
-- Filtrer par type.
+- Filtrer par type
 - Consulter les détails d'un film.
 - Ajouter et supprimer des favoris.
 - Naviguer avec la pagination.
