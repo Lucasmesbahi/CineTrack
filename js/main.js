@@ -1,3 +1,4 @@
+
 import { loadMovie, getFavorites, saveFavorites } from "./store.js";
 import { renderMovies } from "./render.js";
 import { modal } from "./modale.js";
@@ -6,15 +7,91 @@ async function init() {
     const movies = await loadMovie();
     let favorites = getFavorites();
 
-    renderMovies(movies, favorites);
-    modal(movies);
-
     const moviesContainer = document.getElementById("movies-container");
     const favContainer = document.getElementById("fav-container");
     const favoriteCount = document.getElementById("favorite-count");
     const favMoviesCount = document.getElementById("fav-movies-count");
     const favSeriesCount = document.getElementById("fav-series-count");
     const searchInput = document.getElementById("search");
+    const typeFilter = document.getElementById("type-filter");
+    const pagination = document.getElementById("pagination");
+
+    let currentPage = 1;
+    const moviesPerPage = 8;
+    let filteredMovies = movies;
+
+    modal(movies);
+
+    function displayMovies() {
+        const start = (currentPage - 1) * moviesPerPage;
+        const end = start + moviesPerPage;
+
+        const moviesToDisplay = filteredMovies.slice(start, end);
+
+        renderMovies(moviesToDisplay, favorites);
+        renderPagination();
+    }
+
+    function renderPagination() {
+        const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+
+        if (totalPages <= 1) {
+            pagination.innerHTML = "";
+            return;
+        }
+
+        let buttons = `
+            <button data-page="${currentPage - 1}"
+                ${currentPage === 1 ? "disabled" : ""}
+                class="px-3 py-2 rounded-lg bg-[#24242B] text-white disabled:opacity-30">
+                Previous
+            </button>
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+            buttons += `
+                <button data-page="${i}"
+                    class="px-3 py-2 rounded-lg ${currentPage === i ? "bg-red-600 text-white" : "bg-[#24242B] text-white"}">
+                    ${i}
+                </button>
+            `;
+        }
+
+        buttons += `
+            <button data-page="${currentPage + 1}"
+                ${currentPage === totalPages ? "disabled" : ""}
+                class="px-3 py-2 rounded-lg bg-[#24242B] text-white disabled:opacity-30">
+                Next
+            </button>
+        `;
+
+        pagination.innerHTML = buttons;
+    }
+
+    pagination.addEventListener("click", (e) => {
+        const button = e.target.closest("[data-page]");
+
+        if (!button || button.disabled) return;
+
+        currentPage = Number(button.dataset.page);
+
+        displayMovies();
+    });
+
+    function filterMovies() {
+        const searchValue = searchInput.value.toLowerCase().trim();
+        const typeValue = typeFilter.value;
+
+        filteredMovies = movies.filter(movie => {
+            const matchTitle = movie.title.toLowerCase().includes(searchValue);
+            const matchType = typeValue === "all" || movie.type === typeValue;
+
+            return matchTitle && matchType;
+        });
+
+        currentPage = 1;
+        displayMovies();
+    }
 
     function renderFavorites() {
         const favoriteMovies = movies.filter(movie =>
@@ -43,11 +120,8 @@ async function init() {
         const favoritesHTML = favoriteMovies.map(movie => {
             return `
                 <div class="flex items-center gap-3 bg-[#202027] rounded-lg p-2">
-                    <img
-                        src="${movie.image}"
-                        alt="${movie.title}"
-                        class="w-12 h-16 object-cover rounded"
-                    >
+                    <img src="${movie.image}" alt="${movie.title}"
+                        class="w-12 h-16 object-cover">
 
                     <div class="flex-1 min-w-0">
                         <p class="text-white text-sm font-semibold truncate">
@@ -58,8 +132,7 @@ async function init() {
                         </p>
                     </div>
 
-                    <button
-                        data-remove-favorite="${movie.id}"
+                    <button data-remove-favorite="${movie.id}"
                         class="text-red-500 text-xl">
                         ×
                     </button>
@@ -69,8 +142,6 @@ async function init() {
 
         favContainer.innerHTML = favoritesHTML.join("");
     }
-
-    renderFavorites();
 
     moviesContainer.addEventListener("click", (e) => {
         const button = e.target.closest("[data-favorite]");
@@ -90,10 +161,7 @@ async function init() {
         saveFavorites(favorites);
 
         button.textContent = favorites.includes(movieId) ? "♥" : "♡";
-        button.classList.toggle(
-            "text-red-500",
-            favorites.includes(movieId)
-        );
+        button.classList.toggle("text-red-500", favorites.includes(movieId));
 
         renderFavorites();
     });
@@ -120,13 +188,12 @@ async function init() {
 
         renderFavorites();
     });
-            searchInput.addEventListener("input", (e) => {
-            const searchValue = e.target.value.toLowerCase().trim();
-            const filteredMovies = movies.filter(movie => {
-                return movie.title.toLowerCase().includes(searchValue);
-            });
-            renderMovies(filteredMovies, favorites);
-        });
+
+    searchInput.addEventListener("input", filterMovies);
+    typeFilter.addEventListener("change", filterMovies);
+
+    displayMovies();
+    renderFavorites();
 }
 
 init();
